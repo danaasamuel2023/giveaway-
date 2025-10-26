@@ -179,10 +179,14 @@ router.get('/export-bonus', requireAdmin, async (req, res) => {
       .sort((a, b) => (b.referral_count || 0) - (a.referral_count || 0));
 
     // Convert to CSV format (Excel-compatible)
-    const headers = 'Name,Phone Number,Referrals,Data (GB)\n';
-    const rows = usersWithReferrals.map(user => 
-      `"${user.full_name}","=${user.phone_number}","${user.referral_count || 0}","${user.data_awarded || 1}"`
-    ).join('\n');
+    const headers = 'Full Name,Phone Number,Referrals,Data (GB)\n';
+    const rows = usersWithReferrals.map(user => {
+      const name = user.full_name || user.phone_number;
+      const phone = user.phone_number;
+      const refs = user.referral_count || 0;
+      const data = user.data_awarded || 1;
+      return `${name},${phone},${refs},${data}`;
+    }).join('\n');
     
     const data = headers + rows;
 
