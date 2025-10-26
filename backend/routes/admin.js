@@ -224,10 +224,13 @@ router.get('/export-4gb', requireAdmin, async (req, res) => {
       }));
 
     // Convert to CSV format (Excel-compatible)
-    const headers = 'Name,Phone Number,Referrals,Data (GB)\n';
-    const rows = fourGBUsers.map(user => 
-      `"${user.full_name}","=${user.phone_number}","${user.referral_count}","5"`
-    ).join('\n');
+    const headers = 'Full Name,Phone Number,Referrals,Data (GB)\n';
+    const rows = fourGBUsers.map(user => {
+      const name = user.full_name || user.phone_number;
+      const phone = user.phone_number;
+      const refs = user.referral_count;
+      return `"${name}",${phone},${refs},5`;
+    }).join('\n');
     
     const data = headers + rows;
 
