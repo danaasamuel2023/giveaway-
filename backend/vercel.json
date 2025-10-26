@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "buildCommand": "echo 'No build needed'",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": null,
+  "outputDirectory": ".",
   "builds": [
     {
       "src": "server.js",
@@ -8,11 +13,7 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/health",
+      "src": "/(.*)",
       "dest": "server.js"
     }
   ],
